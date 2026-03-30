@@ -56,22 +56,23 @@
         #sj-address { flex: 1; background: transparent; border: none; color: white; padding: 12px; outline: none; font-size: 16px; }
         .primary-btn { background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 14px; cursor: pointer; font-weight: bold; }
 
-        /* --- IMPROVED TAB SYSTEM --- */
+        /* TAB SYSTEM */
         #tab-bar {
             display: none; background: #0a0a0c; width: 100%; padding: 8px 10px 0 10px;
             gap: 4px; border-bottom: 1px solid #222; overflow-x: auto; align-items: flex-end;
+            box-sizing: border-box;
         }
         .tab {
             background: #1a1a1c; color: #888; padding: 10px 15px; border-radius: 10px 10px 0 0;
             cursor: pointer; display: flex; align-items: center; gap: 8px; min-width: 140px;
             max-width: 200px; border: 1px solid #222; border-bottom: none; font-size: 12px;
-            transition: 0.2s;
+            transition: 0.2s; position: relative;
         }
         .tab.active { background: #2d2d30; color: white; border-top: 2px solid var(--primary); }
         .tab img { width: 14px; height: 14px; }
         .close-tab { margin-left: auto; font-size: 16px; opacity: 0.5; }
         .close-tab:hover { opacity: 1; color: #ff5f57; }
-        .new-tab-btn { background: var(--primary); color: white; border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; margin: 0 10px 5px 10px; font-weight: bold; }
+        .new-tab-btn { background: var(--primary); color: white; border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; margin: 0 10px 5px 10px; font-weight: bold; flex-shrink: 0; }
 
         /* Proxy Overlay */
         #proxy-overlay {
@@ -83,8 +84,8 @@
         #proxy-nav-input { flex: 1; background: #000; color: #818cf8; border: 1px solid #333; padding: 8px 12px; border-radius: 20px; outline: none; font-family: monospace; font-size: 13px; }
         
         .frame-container { flex: 1; position: relative; background: white; }
-        iframe { width: 100%; height: 100%; border: none; display: none; }
-        iframe.active { display: block; }
+        iframe.proxy-frame { width: 100%; height: 100%; border: none; position: absolute; top: 0; left: 0; display: none; }
+        iframe.proxy-frame.active { display: block; }
 
         /* Sports Scores Section */
         .sports-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
@@ -107,10 +108,10 @@
         </form>
     </div>
 
-    <div class="main-ui-container" style="margin-top: 0px; padding: 20px;">
+    <div class="main-ui-container" id="sports-container" style="margin-top: 0px; padding: 20px;">
         <div class="sports-header">
             <h3 style="margin:0; font-size: 1.1rem;">Sports News & Live Scores</h3>
-            <div class="timer-pill">Live Updates Enabled</div>
+            <div class="timer-pill">Live Updates (ESPN)</div>
         </div>
         <iframe id="scores-frame" src="https://www.espn.com/core/scoreboard?xhr=1&render=false"></iframe>
     </div>
@@ -132,9 +133,9 @@
         let tabs = [];
         let activeTabId = null;
         let scramjetInstance = null;
+        const connection = new BareMux.BareMuxConnection("/baremux/worker.js");
 
-        // Initialize Scramjet ONCE for better performance
-        function initController() {
+        function getController() {
             if (!scramjetInstance) {
                 const { ScramjetController } = $scramjetLoadController();
                 scramjetInstance = new ScramjetController({
@@ -146,12 +147,17 @@
         }
 
         async function createTab(url) {
-            const controller = initController();
+            const controller = getController();
             const id = 'tab-' + Date.now();
             
+            if ('serviceWorker' in navigator) {
+                await navigator.serviceWorker.register('/scram/sw.js', { scope: '/scram/service/' });
+            }
+
             const frameObj = controller.createFrame();
             const frame = frameObj.frame;
             frame.id = id;
+            frame.classList.add('proxy-frame');
             document.getElementById('frame-host').appendChild(frame);
             
             const tabData = { id, url, frameObj };
@@ -165,8 +171,6 @@
         function renderTabs() {
             const tabBar = document.getElementById('tab-bar');
             tabBar.style.display = 'flex';
-            
-            // Clear existing tabs except the + button
             tabBar.querySelectorAll('.tab').forEach(t => t.remove());
 
             tabs.forEach(tab => {
@@ -174,7 +178,7 @@
                 tabEl.className = `tab ${tab.id === activeTabId ? 'active' : ''}`;
                 tabEl.innerHTML = `
                     <img src="https://pngimg.com/d/baseball_PNG19004.png">
-                    <span style="overflow:hidden; white-space:nowrap;">WatchBaseball</span>
+                    <span style="overflow:hidden; white-space:nowrap; flex:1;">WatchBaseball</span>
                     <span class="close-tab" onclick="closeTab('${tab.id}', event)">×</span>
                 `;
                 tabEl.onclick = () => switchTab(tab.id);
@@ -184,7 +188,7 @@
 
         function switchTab(id) {
             activeTabId = id;
-            document.querySelectorAll('#frame-host iframe').forEach(f => f.classList.remove('active'));
+            document.querySelectorAll('.proxy-frame').forEach(f => f.classList.remove('active'));
             const activeFrame = document.getElementById(id);
             if (activeFrame) {
                 activeFrame.classList.add('active');
@@ -195,26 +199,14 @@
         }
 
         function closeTab(id, e) {
-            e.stopPropagation();
+            if (e) e.stopPropagation();
             const index = tabs.findIndex(t => t.id === id);
             if (index > -1) {
                 document.getElementById(id).remove();
                 tabs.splice(index, 1);
-                if (tabs.length === 0) {
-                    exitProxy();
-                } else if (activeTabId === id) {
-                    switchTab(tabs[tabs.length - 1].id);
-                } else {
-                    renderTabs();
-                }
-            }
-        }
-
-        function openNewTabPrompt() {
-            const query = prompt("Search or enter URL:");
-            if (query) {
-                const url = search(query, "https://www.google.com/search?q=%s");
-                createTab(url);
+                if (tabs.length === 0) exitProxy();
+                else if (activeTabId === id) switchTab(tabs[tabs.length - 1].id);
+                else renderTabs();
             }
         }
 
@@ -227,18 +219,27 @@
             return template.replace("%s", encodeURIComponent(input));
         }
 
+        function openNewTabPrompt() {
+            const query = prompt("Search or enter URL:");
+            if (query) {
+                const url = search(query, "https://www.google.com/search?q=%s");
+                createTab(url);
+            }
+        }
+
         window.addEventListener('load', () => {
             const form = document.getElementById("sj-form");
             const address = document.getElementById("sj-address");
-            const connection = new BareMux.BareMuxConnection("/baremux/worker.js");
 
             form.addEventListener("submit", async (e) => {
                 e.preventDefault();
-                const url = search(address.value, "https://www.google.com/search?q=%s");
-                
+                const query = address.value.trim();
+                if (!query) return;
+
+                const url = search(query, "https://www.google.com/search?q=%s");
                 document.getElementById('proxy-overlay').style.display = 'flex';
                 document.getElementById('main-menu').style.display = 'none';
-                document.querySelectorAll('.main-ui-container')[1].style.display = 'none';
+                document.getElementById('sports-container').style.display = 'none';
 
                 const wispUrl = (location.protocol === "https:" ? "wss" : "ws") + "://" + location.host + "/wisp/";
                 await connection.setTransport("/epoxy/index.mjs", [{ wisp: wispUrl }]);
@@ -248,7 +249,7 @@
         });
 
         window.exitProxy = () => {
-            if(confirm("Close all tabs and return home?")) {
+            if(confirm("Exit browser mode?")) {
                 location.reload();
             }
         }
