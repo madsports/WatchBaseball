@@ -35,8 +35,8 @@
 
         .main-ui-container {
             width: 90%; max-width: 800px;
-            margin: 40px auto 20px auto;
-            padding: 30px;
+            margin: 60px auto 20px auto;
+            padding: 40px;
             background: var(--glass);
             backdrop-filter: blur(16px);
             border: 1px solid var(--glass-border);
@@ -44,76 +44,83 @@
             text-align: center;
         }
 
-        .site-logo { width: 60px; height: 60px; margin-bottom: 10px; }
-        h1 { font-size: 2.5rem; margin: 0; background: linear-gradient(to right, #818cf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .sub-header { color: var(--text-dim); margin-bottom: 25px; font-size: 1.1rem; }
+        h1 { font-size: 3rem; margin: 0; background: linear-gradient(to right, #818cf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        .sub-header { color: var(--text-dim); margin-bottom: 30px; font-size: 1.2rem; }
+
+        .nav-links { display: flex; justify-content: center; gap: 25px; margin-bottom: 20px; }
+        .nav-links a { color: var(--text-dim); text-decoration: none; font-size: 0.9rem; transition: 0.2s; }
+        .nav-links a:hover { color: white; }
 
         /* Search Form */
         #sj-form {
             display: flex; background: rgba(0, 0, 0, 0.2); padding: 8px; border-radius: 18px;
             border: 1px solid var(--glass-border); max-width: 600px; margin: 0 auto;
         }
-        #sj-address { flex: 1; background: transparent; border: none; color: white; padding: 12px; outline: none; font-size: 16px; }
+        #sj-address { flex: 1; background: transparent; border: none; color: white; padding: 12px; outline: none; }
         .primary-btn { background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 14px; cursor: pointer; font-weight: bold; }
 
-        /* TAB SYSTEM */
+        /* --- TAB SYSTEM --- */
         #tab-bar {
-            display: none; background: #0a0a0c; width: 100%; padding: 8px 10px 0 10px;
-            gap: 4px; border-bottom: 1px solid #222; overflow-x: auto; align-items: flex-end;
-            box-sizing: border-box;
+            display: none; background: #111; width: 100%; padding: 10px 10px 0 10px;
+            gap: 5px; border-bottom: 1px solid #333; overflow-x: auto; align-items: center;
         }
         .tab {
-            background: #1a1a1c; color: #888; padding: 10px 15px; border-radius: 10px 10px 0 0;
-            cursor: pointer; display: flex; align-items: center; gap: 8px; min-width: 140px;
-            max-width: 200px; border: 1px solid #222; border-bottom: none; font-size: 12px;
-            transition: 0.2s; position: relative;
+            background: #222; color: #ccc; padding: 8px 15px; border-radius: 8px 8px 0 0;
+            cursor: pointer; display: flex; align-items: center; gap: 10px; min-width: 120px;
+            max-width: 200px; border: 1px solid #333; border-bottom: none; font-size: 13px;
         }
-        .tab.active { background: #2d2d30; color: white; border-top: 2px solid var(--primary); }
         .tab img { width: 14px; height: 14px; }
-        .close-tab { margin-left: auto; font-size: 16px; opacity: 0.5; }
-        .close-tab:hover { opacity: 1; color: #ff5f57; }
-        .new-tab-btn { background: var(--primary); color: white; border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; margin: 0 10px 5px 10px; font-weight: bold; flex-shrink: 0; }
+        .tab.active { background: #333; color: white; border-top: 2px solid var(--primary); }
+        .close-tab { color: #ff5f57; font-weight: bold; cursor: pointer; margin-left: auto; }
+        .new-tab-btn { background: var(--primary); color: white; border: none; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; margin-bottom: 5px; font-weight: bold; }
 
         /* Proxy Overlay */
         #proxy-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #000; z-index: 9999; display: none; flex-direction: column;
         }
-        .proxy-nav { background: #1a1a1a; padding: 8px 15px; display: flex; gap: 12px; align-items: center; }
-        .exit-btn { background: #333; color: #eee; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; }
-        #proxy-nav-input { flex: 1; background: #000; color: #818cf8; border: 1px solid #333; padding: 8px 12px; border-radius: 20px; outline: none; font-family: monospace; font-size: 13px; }
-        
-        .frame-container { flex: 1; position: relative; background: white; }
-        iframe.proxy-frame { width: 100%; height: 100%; border: none; position: absolute; top: 0; left: 0; display: none; }
-        iframe.proxy-frame.active { display: block; }
+        .proxy-nav { background: #1a1a1a; padding: 10px; display: flex; gap: 10px; align-items: center; }
+        .exit-btn { background: #ef4444; color: white; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; }
+        .frame-container { flex: 1; position: relative; }
+        iframe { width: 100%; height: 100%; border: none; display: none; position: absolute; top:0; left:0; }
+        iframe.active { display: block; }
 
-        /* Sports Scores Section */
-        .sports-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .timer-pill { background: rgba(99, 102, 241, 0.1); color: #818cf8; padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; }
-        #scores-frame { width: 100%; height: 500px; border-radius: 18px; border: 1px solid var(--glass-border); background: #fff; }
+        /* Sports Section */
+        .sports-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--glass-border); padding-bottom: 10px; margin-bottom: 20px; }
+        .timer-pill { background: rgba(99, 102, 241, 0.2); color: #818cf8; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; }
+        .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px; }
+        .news-card { background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-radius: 12px; padding: 15px; text-decoration: none; color: white; text-align: left; transition: 0.2s; }
+        .news-card:hover { background: rgba(255,255,255,0.05); transform: translateY(-3px); }
     </style>
 </head>
 
 <body>
 
     <div class="main-ui-container" id="main-menu">
-        <img src="https://pngimg.com/d/baseball_PNG19004.png" class="site-logo" alt="logo">
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/credits.html">Credits</a>
+        </div>
+
         <h1>WatchBaseball</h1>
-        <p class="sub-header">Search Anything You Want</p>
+        <p class="sub-header">Watch Baseball or Search Anything You Want</p>
 
         <form id="sj-form">
             <input id="sj-search-engine" value="https://www.google.com/search?q=%s" type="hidden" />
-            <input id="sj-address" type="text" placeholder="URL or Search..." autocomplete="off" />
+            <input id="sj-address" type="text" placeholder="Enter URL or search sports..." autocomplete="off" />
             <button type="submit" class="primary-btn" id="sj-btn">Go</button>
         </form>
     </div>
 
-    <div class="main-ui-container" id="sports-container" style="margin-top: 0px; padding: 20px;">
+    <div class="main-ui-container" style="margin-top: 0px;">
         <div class="sports-header">
-            <h3 style="margin:0; font-size: 1.1rem;">Sports News & Live Scores</h3>
-            <div class="timer-pill">Live Updates (ESPN)</div>
+            <h3 style="margin:0;">Sports News & Scores</h3>
+            <div class="timer-pill">Next Refresh: <span id="refresh-timer">60</span>s</div>
         </div>
-        <iframe id="scores-frame" src="https://www.espn.com/core/scoreboard?xhr=1&render=false"></iframe>
+        <div id="learning-news" class="news-grid">
+            <p>Fetching today's highlights...</p>
+        </div>
     </div>
 
     <div id="proxy-overlay">
@@ -121,8 +128,8 @@
             <button class="new-tab-btn" onclick="openNewTabPrompt()">+</button>
         </div>
         <div class="proxy-nav">
-            <button class="exit-btn" onclick="exitProxy()">Close All</button>
-            <input id="proxy-nav-input" type="text" readonly />
+            <button class="exit-btn" onclick="exitProxy()">Exit</button>
+            <input id="proxy-nav-input" type="text" readonly style="flex:1; background:#333; color:white; border:none; padding:8px; border-radius:5px;" />
         </div>
         <div class="frame-container" id="frame-host"></div>
     </div>
@@ -132,29 +139,56 @@
 
         let tabs = [];
         let activeTabId = null;
-        let scramjetInstance = null;
-        const connection = new BareMux.BareMuxConnection("/baremux/worker.js");
+        let refreshSecs = 60;
+        let globalScramjet = null; // Global instance to prevent lag
 
-        function getController() {
-            if (!scramjetInstance) {
+        // --- Timer & Sports Logic ---
+        function updateSportsTimer() {
+            refreshSecs--;
+            if (refreshSecs <= 0) {
+                refreshSecs = 60;
+                loadSports();
+            }
+            document.getElementById('refresh-timer').innerText = refreshSecs;
+        }
+        setInterval(updateSportsTimer, 1000);
+
+        async function loadSports() {
+            try {
+                const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent('https://www.espn.com/espn/rss/mlb/news')}`);
+                const data = await res.json();
+                const container = document.getElementById("learning-news");
+                if (!data.items) return;
+                container.innerHTML = "";
+                data.items.slice(0, 6).forEach(item => {
+                    const card = document.createElement("a");
+                    card.className = "news-card";
+                    card.href = item.link;
+                    card.target = "_blank";
+                    card.innerHTML = `<div style="font-size:0.8rem; color:#818cf8; margin-bottom:5px;">LATEST UPDATE</div>
+                                      <div style="font-weight:bold;">${item.title}</div>`;
+                    container.appendChild(card);
+                });
+            } catch (e) { console.error("Sports load fail"); }
+        }
+
+        // --- Tab Management ---
+        function initScramjet() {
+            if (!globalScramjet) {
                 const { ScramjetController } = $scramjetLoadController();
-                scramjetInstance = new ScramjetController({
+                globalScramjet = new ScramjetController({
                     files: { wasm: '/scram/scramjet.wasm.wasm', all: '/scram/scramjet.all.js', sync: '/scram/scramjet.sync.js' },
                 });
-                scramjetInstance.init();
+                globalScramjet.init();
             }
-            return scramjetInstance;
+            return globalScramjet;
         }
 
         async function createTab(url) {
-            const controller = getController();
+            const scramjet = initScramjet();
             const id = 'tab-' + Date.now();
-            
-            if ('serviceWorker' in navigator) {
-                await navigator.serviceWorker.register('/scram/sw.js', { scope: '/scram/service/' });
-            }
 
-            const frameObj = controller.createFrame();
+            const frameObj = scramjet.createFrame();
             const frame = frameObj.frame;
             frame.id = id;
             frame.classList.add('proxy-frame');
@@ -162,7 +196,6 @@
             
             const tabData = { id, url, frameObj };
             tabs.push(tabData);
-            
             renderTabs();
             switchTab(id);
             frameObj.go(url);
@@ -171,35 +204,35 @@
         function renderTabs() {
             const tabBar = document.getElementById('tab-bar');
             tabBar.style.display = 'flex';
-            tabBar.querySelectorAll('.tab').forEach(t => t.remove());
+            const oldTabs = tabBar.querySelectorAll('.tab');
+            oldTabs.forEach(t => t.remove());
 
             tabs.forEach(tab => {
                 const tabEl = document.createElement('div');
                 tabEl.className = `tab ${tab.id === activeTabId ? 'active' : ''}`;
+                tabEl.onclick = () => switchTab(tab.id);
                 tabEl.innerHTML = `
                     <img src="https://pngimg.com/d/baseball_PNG19004.png">
-                    <span style="overflow:hidden; white-space:nowrap; flex:1;">WatchBaseball</span>
+                    <span style="overflow:hidden; white-space:nowrap; text-overflow:ellipsis;">WatchBaseball</span>
                     <span class="close-tab" onclick="closeTab('${tab.id}', event)">×</span>
                 `;
-                tabEl.onclick = () => switchTab(tab.id);
                 tabBar.insertBefore(tabEl, tabBar.querySelector('.new-tab-btn'));
             });
         }
 
         function switchTab(id) {
             activeTabId = id;
-            document.querySelectorAll('.proxy-frame').forEach(f => f.classList.remove('active'));
+            document.querySelectorAll('iframe').forEach(f => f.classList.remove('active'));
             const activeFrame = document.getElementById(id);
             if (activeFrame) {
                 activeFrame.classList.add('active');
-                const tab = tabs.find(t => t.id === id);
-                document.getElementById('proxy-nav-input').value = tab.url;
+                document.getElementById('proxy-nav-input').value = tabs.find(t => t.id === id).url;
             }
             renderTabs();
         }
 
         function closeTab(id, e) {
-            if (e) e.stopPropagation();
+            e.stopPropagation();
             const index = tabs.findIndex(t => t.id === id);
             if (index > -1) {
                 document.getElementById(id).remove();
@@ -210,6 +243,15 @@
             }
         }
 
+        function openNewTabPrompt() {
+            const url = prompt("Enter URL or Search:");
+            if (url) {
+                const finalUrl = search(url, "https://www.google.com/search?q=%s");
+                createTab(finalUrl);
+            }
+        }
+
+        // --- Core Logic ---
         function search(input, template) {
             try { return new URL(input).toString(); } catch (err) { }
             try {
@@ -219,27 +261,19 @@
             return template.replace("%s", encodeURIComponent(input));
         }
 
-        function openNewTabPrompt() {
-            const query = prompt("Search or enter URL:");
-            if (query) {
-                const url = search(query, "https://www.google.com/search?q=%s");
-                createTab(url);
-            }
-        }
-
         window.addEventListener('load', () => {
+            loadSports();
             const form = document.getElementById("sj-form");
             const address = document.getElementById("sj-address");
+            const connection = new BareMux.BareMuxConnection("/baremux/worker.js");
 
             form.addEventListener("submit", async (e) => {
                 e.preventDefault();
-                const query = address.value.trim();
-                if (!query) return;
-
-                const url = search(query, "https://www.google.com/search?q=%s");
+                const url = search(address.value, "https://www.google.com/search?q=%s");
+                
                 document.getElementById('proxy-overlay').style.display = 'flex';
                 document.getElementById('main-menu').style.display = 'none';
-                document.getElementById('sports-container').style.display = 'none';
+                document.querySelectorAll('.main-ui-container')[1].style.display = 'none';
 
                 const wispUrl = (location.protocol === "https:" ? "wss" : "ws") + "://" + location.host + "/wisp/";
                 await connection.setTransport("/epoxy/index.mjs", [{ wisp: wispUrl }]);
@@ -249,9 +283,7 @@
         });
 
         window.exitProxy = () => {
-            if(confirm("Exit browser mode?")) {
-                location.reload();
-            }
+            location.reload();
         }
     </script>
 </body>
