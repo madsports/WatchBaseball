@@ -13,134 +13,226 @@
     <script src="/epoxy/index.js"></script>
     <script src="/register-sw.js"></script>
     
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
+
     <style>
         :root {
-            --bg: #f5f5f7; /* Soft off-white */
-            --container-bg: #ffffff;
-            --text-main: #1d1d1f; /* Graphite black */
-            --text-dim: #86868b;
-            --accent: #000000;
-            --border: rgba(0,0,0,0.08);
-            --tab-inactive: #e8e8ed;
+            --bg: #0a0a0a;
+            --card-bg: #111111;
+            --accent: #ffffff;
+            --text-main: #ffffff;
+            --text-dim: #888888;
+            --border: rgba(255, 255, 255, 0.08);
+            --glass: rgba(255, 255, 255, 0.03);
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Outfit', sans-serif;
             background-color: var(--bg);
             color: var(--text-main);
             margin: 0; padding: 0;
             min-height: 100vh;
-            display: flex; flex-direction: column; align-items: center;
-            -webkit-font-smoothing: antialiased;
+            display: flex; flex-direction: column;
+            overflow-x: hidden;
         }
 
-        .main-ui-container {
-            width: 90%; max-width: 700px;
-            margin: 80px auto 20px auto;
-            padding: 50px 40px;
-            background: var(--container-bg);
-            border-radius: 30px;
+        /* Top Navigation */
+        .top-nav {
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { 
+            color: var(--text-dim); 
+            text-decoration: none; 
+            font-size: 0.9rem; 
+            font-weight: 500; 
+            transition: 0.3s;
+            letter-spacing: 0.5px;
+        }
+        .nav-links a:hover { color: var(--accent); }
+
+        /* Main Hero Section */
+        .hero {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
             text-align: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.04);
         }
 
-        h1 { font-size: 3.5rem; margin: 0; font-weight: 700; letter-spacing: -2px; color: var(--accent); }
-        .sub-header { color: var(--text-main); margin-top: 10px; font-size: 1.2rem; font-weight: 500; }
-        .credits-tag { color: var(--text-dim); font-size: 0.85rem; margin-top: 8px; font-weight: 400; letter-spacing: 1px; text-transform: uppercase; }
+        .hero h1 { 
+            font-size: 5rem; 
+            margin: 0; 
+            font-weight: 800; 
+            letter-spacing: -4px; 
+            line-height: 0.9;
+        }
 
-        /* Search Form */
+        .sub-header { 
+            font-size: 1.2rem; 
+            color: var(--text-dim); 
+            margin-top: 20px;
+            font-weight: 300;
+        }
+
+        .made-by {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            margin-top: 10px;
+            letter-spacing: 3px;
+        }
+
+        /* Search Bar Redesign - Keeping the part you liked but 10x better */
         #sj-form {
-            display: flex; 
-            background: #fbfbfd; 
-            padding: 8px; 
-            border-radius: 16px;
-            border: 1px solid var(--border); 
-            max-width: 500px; 
-            margin: 40px auto 0 auto;
-            transition: all 0.3s ease;
+            margin-top: 50px;
+            width: 100%;
+            max-width: 650px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 10px;
+            display: flex;
+            gap: 10px;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        #sj-form:focus-within { border-color: #000; box-shadow: 0 0 0 4px rgba(0,0,0,0.05); }
-        
-        #sj-address { flex: 1; background: transparent; border: none; color: black; padding: 12px 15px; outline: none; font-size: 16px; }
-        
-        .primary-btn { 
-            background: var(--accent); 
-            color: white; 
-            border: none; 
-            padding: 12px 28px; 
-            border-radius: 12px; 
-            cursor: pointer; 
-            font-weight: 600; 
-            transition: all 0.2s ease; 
-        }
-        .primary-btn:hover { opacity: 0.8; transform: translateY(-1px); }
 
-        /* --- TABS --- */
-        #tab-bar {
-            display: none; background: #edede0; width: 100%; padding: 10px 15px 0 15px;
-            gap: 6px; border-bottom: 1px solid var(--border); overflow-x: auto; align-items: center;
+        #sj-form:focus-within {
+            border-color: #fff;
+            transform: scale(1.02);
+            box-shadow: 0 0 40px rgba(255,255,255,0.05);
         }
-        .tab {
-            background: var(--tab-inactive); color: var(--text-dim); padding: 10px 20px; border-radius: 12px 12px 0 0;
-            cursor: pointer; display: flex; align-items: center; gap: 10px; min-width: 140px;
-            border: 1px solid transparent; font-size: 13px; font-weight: 500;
-            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+
+        #sj-address {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #fff;
+            padding-left: 20px;
+            font-size: 1.1rem;
+            outline: none;
+            font-family: 'Outfit', sans-serif;
         }
-        .tab img { width: 15px; height: 15px; opacity: 0.6; }
-        .tab.active { background: var(--container-bg); color: var(--accent); border: 1px solid var(--border); border-bottom: none; box-shadow: 0 -4px 12px rgba(0,0,0,0.03); }
-        .tab.active img { opacity: 1; }
-        
-        .close-tab { font-size: 16px; opacity: 0.3; margin-left: auto; transition: 0.2s; }
-        .close-tab:hover { opacity: 1; color: #ff3b30; }
 
-        .new-tab-btn { background: #e8e8ed; color: #000; border: none; width: 32px; height: 32px; border-radius: 10px; cursor: pointer; margin-bottom: 5px; font-size: 18px; transition: 0.2s; }
-        .new-tab-btn:hover { background: #dcdce2; }
+        .primary-btn {
+            background: #fff;
+            color: #000;
+            border: none;
+            padding: 15px 35px;
+            border-radius: 14px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.3s;
+        }
 
-        /* Proxy Overlay */
+        .primary-btn:hover { background: #ccc; }
+
+        /* Sports Cards - Minimalist List */
+        .sports-container {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto 100px auto;
+            padding: 0 20px;
+        }
+
+        .section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .news-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+        .news-card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            padding: 25px;
+            border-radius: 24px;
+            text-decoration: none;
+            color: #fff;
+            transition: 0.4s;
+        }
+
+        .news-card:hover {
+            background: var(--card-bg);
+            border-color: #444;
+            transform: translateY(-5px);
+        }
+
+        /* TAB OVERLAY */
         #proxy-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg); z-index: 9999; display: none; flex-direction: column;
+            background: #000; z-index: 9999; display: none; flex-direction: column;
         }
-        .proxy-nav { background: var(--container-bg); padding: 10px 20px; display: flex; gap: 15px; align-items: center; border-bottom: 1px solid var(--border); }
-        .exit-btn { background: #f2f2f7; color: #ff3b30; border: none; padding: 8px 16px; border-radius: 10px; cursor: pointer; font-size: 13px; font-weight: 600; }
-        #proxy-nav-input { flex: 1; background: #f2f2f7; color: var(--text-dim); border: none; padding: 10px 15px; border-radius: 10px; font-size: 13px; outline: none; }
 
-        /* Smooth Switch */
-        iframe { width: 100%; height: 100%; border: none; position: absolute; opacity: 0; transition: opacity 0.4s ease; pointer-events: none; }
+        #tab-bar {
+            display: flex; background: #000; padding: 10px 15px 0 15px;
+            gap: 8px; border-bottom: 1px solid #111; overflow-x: auto;
+        }
+
+        .tab {
+            background: #111; color: #555; padding: 12px 20px; border-radius: 12px 12px 0 0;
+            cursor: pointer; display: flex; align-items: center; gap: 12px; min-width: 160px;
+            border: 1px solid #222; border-bottom: none; font-size: 13px;
+            transition: 0.3s;
+        }
+
+        .tab.active { background: #222; color: #fff; border-color: #333; }
+        .tab img { width: 16px; height: 16px; }
+
+        .new-tab-btn { background: #222; color: #fff; border: none; width: 35px; height: 35px; border-radius: 10px; cursor: pointer; margin-bottom: 5px; }
+
+        .proxy-nav { background: #000; padding: 10px 20px; display: flex; gap: 15px; border-bottom: 1px solid #111; }
+        .exit-btn { background: #ff4444; color: white; border: none; padding: 8px 18px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        #proxy-nav-input { flex: 1; background: #111; border: 1px solid #222; color: #888; border-radius: 8px; padding: 8px 15px; outline: none; font-family: 'JetBrains Mono'; font-size: 12px; }
+
+        iframe { width: 100%; height: 100%; border: none; position: absolute; opacity: 0; transition: opacity 0.5s ease; pointer-events: none; }
         iframe.active { opacity: 1; pointer-events: auto; }
 
-        /* Sports Cards */
-        #sports-section { background: none; border: none; box-shadow: none; padding-top: 0; }
-        .sports-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .timer-pill { background: #000; color: #fff; padding: 5px 15px; border-radius: 50px; font-size: 12px; font-weight: 700; }
-        .news-card { 
-            background: #fff; border: 1px solid var(--border); border-radius: 20px; 
-            padding: 20px; text-decoration: none; color: black; text-align: left; 
-            transition: all 0.3s ease; display: block; margin-bottom: 12px;
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+            .news-grid { grid-template-columns: 1fr; }
         }
-        .news-card:hover { transform: scale(1.02); box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-color: #000; }
     </style>
 </head>
 
 <body>
 
-    <div class="main-ui-container" id="main-menu">
+    <nav class="top-nav">
+        <div style="font-weight: 800; letter-spacing: -1px;">WB.</div>
+        <div class="nav-links">
+            <a href="/">HOME</a>
+            <a href="/credits.html">CREDITS</a>
+        </div>
+    </nav>
+
+    <div class="hero" id="main-menu">
         <h1>WatchBaseball</h1>
-        <p class="sub-header">Watch Baseball or Search Anything You Want</p>
-        <p class="credits-tag">made by mad</p>
+        <p class="sub-header">Premium Access to Sports and Web Search</p>
+        <div class="made-by">made by mad</div>
 
         <form id="sj-form">
-            <input id="sj-address" type="text" placeholder="Search with privacy..." autocomplete="off" />
-            <button type="submit" class="primary-btn">Go</button>
+            <input id="sj-address" type="text" placeholder="Explore the web..." autocomplete="off" />
+            <button type="submit" class="primary-btn">GO</button>
         </form>
     </div>
 
-    <div class="main-ui-container" id="sports-section">
-        <div class="sports-header">
-            <h3 style="margin:0; font-weight: 700;">Live Sports Wire</h3>
-            <div class="timer-pill"><span id="refresh-timer">60</span>s</div>
-        </div>
-        <div id="learning-news"></div>
+    <div class="sports-container" id="sports-section">
+        <span class="section-label">// LIVE SPORTS FEED</span>
+        <div id="learning-news" class="news-grid">
+            </div>
     </div>
 
     <div id="proxy-overlay">
@@ -148,7 +240,7 @@
             <button class="new-tab-btn" onclick="openNewTabPrompt()">+</button>
         </div>
         <div class="proxy-nav">
-            <button class="exit-btn" onclick="exitProxy()">End Session</button>
+            <button class="exit-btn" onclick="exitProxy()">EXIT</button>
             <input id="proxy-nav-input" type="text" readonly />
         </div>
         <div class="frame-container" id="frame-host" style="flex:1; position:relative;"></div>
@@ -159,15 +251,7 @@
 
         let tabs = [];
         let activeTabId = null;
-        let refreshSecs = 60;
         let globalScramjet = null;
-
-        // Auto-refresh scores
-        setInterval(() => {
-            refreshSecs--;
-            if (refreshSecs <= 0) { refreshSecs = 60; loadSports(); }
-            document.getElementById('refresh-timer').innerText = refreshSecs;
-        }, 1000);
 
         async function loadSports() {
             try {
@@ -175,13 +259,13 @@
                 const data = await res.json();
                 const container = document.getElementById("learning-news");
                 container.innerHTML = "";
-                data.items.slice(0, 3).forEach(item => {
+                data.items.slice(0, 4).forEach(item => {
                     const card = document.createElement("a");
                     card.className = "news-card";
                     card.href = item.link;
                     card.target = "_blank";
-                    card.innerHTML = `<div style="font-size:11px; font-weight:700; color:#86868b; margin-bottom:5px; text-transform:uppercase;">Live Feed</div>
-                                      <div style="font-weight:600; font-size:15px; line-height:1.4;">${item.title}</div>`;
+                    card.innerHTML = `<div style="font-family:'JetBrains Mono'; font-size:10px; color:#555; margin-bottom:10px;">RSS://FEED_UPDATE</div>
+                                      <div style="font-weight:500; font-size:1.1rem; line-height:1.2;">${item.title}</div>`;
                     container.appendChild(card);
                 });
             } catch (e) { }
@@ -224,7 +308,7 @@
                 tabEl.innerHTML = `
                     <img src="https://pngimg.com/d/baseball_PNG19004.png">
                     <span>WatchBaseball</span>
-                    <span class="close-tab" onclick="closeTab('${tab.id}', event)">×</span>
+                    <span style="margin-left:auto; opacity:0.3;" onclick="closeTab('${tab.id}', event)">×</span>
                 `;
                 tabBar.insertBefore(tabEl, tabBar.querySelector('.new-tab-btn'));
             });
@@ -273,12 +357,11 @@
         });
 
         function openNewTabPrompt() {
-            const url = prompt("Search or enter URL:");
+            const url = prompt("Explore:");
             if (url) createTab(search(url));
         }
 
         function exitProxy() { location.reload(); }
-        
         loadSports();
     </script>
 </body>
