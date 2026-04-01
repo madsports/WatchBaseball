@@ -84,6 +84,10 @@
 
         * { box-sizing: border-box; }
 
+        html, body {
+            height: 100%;
+        }
+
         body {
             margin: 0;
             min-height: 100vh;
@@ -95,7 +99,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            transition: background .4s ease, color .3s ease;
+            transition: background .25s ease, color .2s ease;
         }
 
         .main-ui-container {
@@ -109,11 +113,11 @@
             border-radius: 30px;
             box-shadow: var(--shadow);
             text-align: center;
-            animation: pageIn .45s ease;
+            animation: pageIn .3s ease;
         }
 
         @keyframes pageIn {
-            from { opacity: 0; transform: translateY(16px) scale(.985); }
+            from { opacity: 0; transform: translateY(10px) scale(.99); }
             to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
@@ -147,7 +151,7 @@
             color: var(--muted);
             text-decoration: none;
             font-weight: 600;
-            transition: color .2s ease, transform .2s ease;
+            transition: color .18s ease, transform .18s ease;
         }
 
         .nav-links a:hover {
@@ -182,10 +186,14 @@
         .modal-btn,
         .new-tab-btn,
         .quick-btn,
-        .sport-btn {
+        .sport-btn,
+        .shortcut-btn,
+        .theme-btn,
+        .bookmark-chip,
+        .icon-btn {
             border: none;
             cursor: pointer;
-            transition: .22s ease;
+            transition: .16s ease;
         }
 
         .primary-btn {
@@ -197,12 +205,13 @@
         }
 
         .primary-btn:hover {
-            transform: translateY(-2px);
+            transform: translateY(-1px);
             opacity: .95;
         }
 
         .quick-links-grid,
-        .sport-tabs {
+        .sport-tabs,
+        .shortcut-grid {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
@@ -211,7 +220,8 @@
 
         .quick-btn,
         .sport-btn,
-        .bookmark-chip {
+        .bookmark-chip,
+        .shortcut-btn {
             background: var(--panel-2);
             color: var(--accent);
             border: 1px solid var(--border);
@@ -222,18 +232,19 @@
 
         .quick-btn:hover,
         .sport-btn:hover,
-        .bookmark-chip:hover {
-            transform: translateY(-2px) scale(1.02);
+        .bookmark-chip:hover,
+        .shortcut-btn:hover {
+            transform: translateY(-1px);
             background: rgba(255,255,255,.16);
         }
 
         .quick-btn.pop {
-            animation: quickPop .28s ease;
+            animation: quickPop .2s ease;
         }
 
         @keyframes quickPop {
             0% { transform: scale(1); }
-            50% { transform: scale(.95); }
+            50% { transform: scale(.97); }
             100% { transform: scale(1); }
         }
 
@@ -266,10 +277,10 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
             gap: 18px;
-            transition: opacity .35s ease;
+            transition: opacity .18s ease;
         }
 
-        .news-grid.loading { opacity: .4; }
+        .news-grid.loading { opacity: .45; }
 
         .news-card {
             background: var(--panel-2);
@@ -279,17 +290,17 @@
             text-decoration: none;
             color: var(--text);
             text-align: left;
-            transition: .24s ease;
-            animation: cardIn .35s ease backwards;
+            transition: .16s ease;
+            animation: cardIn .22s ease backwards;
         }
 
         @keyframes cardIn {
-            from { opacity: 0; transform: translateY(12px); }
+            from { opacity: 0; transform: translateY(8px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .news-card:hover {
-            transform: translateY(-4px);
+            transform: translateY(-2px);
             background: rgba(255,255,255,.14);
         }
 
@@ -299,9 +310,9 @@
             margin-bottom: 8px;
         }
 
-        /* Settings Modal */
         #settings-modal,
-        #browser-settings-modal {
+        #browser-settings-modal,
+        #info-modal {
             position: fixed;
             inset: 0;
             background: rgba(0,0,0,.45);
@@ -320,11 +331,11 @@
             border-radius: 24px;
             box-shadow: var(--shadow);
             padding: 20px;
-            animation: modalIn .25s ease;
+            animation: modalIn .18s ease;
         }
 
         @keyframes modalIn {
-            from { opacity: 0; transform: translateY(10px) scale(.98); }
+            from { opacity: 0; transform: translateY(8px) scale(.985); }
             to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
@@ -395,9 +406,17 @@
             flex-wrap: wrap;
         }
 
-        .row > * { flex: 1; min-width: 150px; }
+        .row > * {
+            flex: 1;
+            min-width: 150px;
+        }
 
-        /* Browser */
+        .small-muted {
+            color: var(--muted);
+            font-size: .9rem;
+            line-height: 1.55;
+        }
+
         #proxy-overlay {
             position: fixed;
             inset: 0;
@@ -406,7 +425,7 @@
             display: none;
             flex-direction: column;
             opacity: 0;
-            transition: opacity .28s ease, transform .28s ease;
+            transition: opacity .18s ease;
         }
 
         #proxy-overlay.show {
@@ -416,7 +435,6 @@
 
         #proxy-overlay.closing {
             opacity: 0;
-            transform: scale(.992);
         }
 
         .proxy-top {
@@ -424,8 +442,60 @@
             border-bottom: 1px solid #242424;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
+            padding: 8px 10px 10px;
+        }
+
+        #tab-bar {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 0 2px;
+            scrollbar-width: thin;
+            align-items: flex-end;
+        }
+
+        .tab {
+            min-width: 170px;
+            max-width: 230px;
+            background: #141414;
+            border: 1px solid #2a2a2a;
+            border-bottom: none;
+            border-radius: 14px 14px 0 0;
+            color: #c8c8c8;
             padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: .14s ease;
+            animation: tabIn .16s ease;
+        }
+
+        .tab:hover { background: #1b1b1b; }
+
+        .tab.active {
+            background: #232323;
+            color: white;
+            border-top: 2px solid #ffffff;
+        }
+
+        @keyframes tabIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tab-title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            flex: 1;
+        }
+
+        .close-tab {
+            color: #ff8b8b;
+            font-weight: 700;
+            padding: 0 4px;
         }
 
         .proxy-toolbar,
@@ -441,7 +511,8 @@
 
         .control-btn,
         .new-tab-btn,
-        .bookmark-btn {
+        .bookmark-btn,
+        .icon-btn {
             background: #1d1d1d;
             color: #ececec;
             padding: 10px 12px;
@@ -452,7 +523,8 @@
 
         .control-btn:hover,
         .new-tab-btn:hover,
-        .bookmark-btn:hover {
+        .bookmark-btn:hover,
+        .icon-btn:hover {
             background: #2a2a2a;
             transform: translateY(-1px);
         }
@@ -477,54 +549,23 @@
             outline: none;
         }
 
-        #tab-bar {
-            display: flex;
-            gap: 8px;
+        .bookmark-bar {
             overflow-x: auto;
-            padding: 0 2px;
-            scrollbar-width: thin;
+            padding-bottom: 2px;
         }
 
-        .tab {
-            min-width: 160px;
-            max-width: 210px;
-            background: #161616;
-            border: 1px solid #2d2d2d;
-            border-radius: 14px 14px 0 0;
-            color: #c8c8c8;
-            padding: 10px 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: .2s ease;
-            animation: tabIn .22s ease;
-        }
-
-        .tab:hover { background: #1e1e1e; }
-
-        .tab.active {
-            background: #252525;
+        .bookmark-chip {
             color: white;
-            border-top: 2px solid #ffffff;
-        }
-
-        @keyframes tabIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .tab-title {
-            overflow: hidden;
-            text-overflow: ellipsis;
+            background: #151515;
+            border: 1px solid #2b2b2b;
+            cursor: pointer;
             white-space: nowrap;
-            flex: 1;
         }
 
-        .close-tab {
+        .bookmark-chip .x {
+            margin-left: 8px;
             color: #ff8b8b;
-            font-weight: 700;
-            padding: 0 4px;
+            font-weight: bold;
         }
 
         .frame-container {
@@ -540,14 +581,12 @@
             border: none;
             display: none;
             opacity: 0;
-            transform: scale(.998);
-            transition: opacity .18s ease, transform .18s ease;
+            transition: opacity .14s ease;
         }
 
         iframe.active {
             display: block;
             opacity: 1;
-            transform: scale(1);
         }
 
         .new-tab-page {
@@ -570,7 +609,7 @@
             width: 100%;
             max-width: 760px;
             text-align: center;
-            animation: pageIn .25s ease;
+            animation: pageIn .18s ease;
         }
 
         .new-tab-inner h2 {
@@ -590,6 +629,7 @@
             border: 1px solid #2a2a2a;
             padding: 8px;
             border-radius: 22px;
+            margin-bottom: 18px;
         }
 
         .new-tab-search input {
@@ -602,23 +642,41 @@
             font-size: 1rem;
         }
 
-        .bookmark-bar {
-            overflow-x: auto;
-            padding-bottom: 2px;
+        .shortcut-grid {
+            margin-top: 12px;
         }
 
-        .bookmark-chip {
+        .shortcut-add {
+            margin-top: 16px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .shortcut-add input {
+            background: #161616;
             color: white;
-            background: #151515;
-            border: 1px solid #2b2b2b;
-            cursor: pointer;
-            white-space: nowrap;
+            border: 1px solid #2e2e2e;
+            border-radius: 14px;
+            padding: 12px 14px;
+            min-width: 180px;
         }
 
-        .bookmark-chip .x {
-            margin-left: 8px;
-            color: #ff8b8b;
-            font-weight: bold;
+        .toggle-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            background: var(--panel-2);
+            border: 1px solid var(--border);
+            padding: 12px 14px;
+            border-radius: 14px;
+        }
+
+        .toggle-row input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
         }
 
         @media (max-width: 700px) {
@@ -626,6 +684,7 @@
             .main-ui-container { padding: 26px 18px; margin: 20px 12px; }
             .sports-header { flex-direction: column; align-items: flex-start; }
             .proxy-toolbar { flex-wrap: wrap; }
+            #proxy-nav-input { min-width: 100%; order: 2; }
         }
     </style>
 </head>
@@ -636,11 +695,11 @@
             <a href="/proxies.html">Proxies</a>
             <a href="/chat.html">Live Chat</a>
             <a href="#" id="settings-btn">Settings</a>
-            <a href="/credits.html">Credits</a>
+            <a href="#" id="info-btn">Information</a>
         </div>
 
         <h1>WatchBaseball</h1>
-        <p class="sub-header">Keep Sports News, Watch Baseball & Search Anything</p>
+        <p class="sub-header">Keep Sports News, Watch Baseball, Search Anything</p>
         <p class="made-by">made by mad</p>
 
         <form id="sj-form">
@@ -664,7 +723,6 @@
         </div>
     </div>
 
-    <!-- Main Settings -->
     <div id="settings-modal">
         <div class="modal-panel">
             <div class="modal-header">
@@ -694,12 +752,28 @@
             </div>
 
             <div class="setting-group">
+                <label>Instant Goto</label>
+                <div class="toggle-row">
+                    <span>Automatically reopen a saved page on launch</span>
+                    <input type="checkbox" id="instant-goto-enabled">
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <label>Instant Goto URL</label>
+                <input id="instant-goto-url" class="settings-input" placeholder="https://example.com" style="width:100%;">
+            </div>
+
+            <div class="setting-group">
+                <button id="save-instant-goto" class="modal-btn">Save Instant Goto</button>
+            </div>
+
+            <div class="setting-group">
                 <button id="clear-saved-tabs" class="modal-btn">Clear Saved Tabs</button>
             </div>
         </div>
     </div>
 
-    <!-- Browser Settings -->
     <div id="browser-settings-modal">
         <div class="modal-panel">
             <div class="modal-header">
@@ -708,15 +782,8 @@
             </div>
 
             <div class="setting-group">
-                <label>Add Bookmark</label>
-                <div class="row">
-                    <input id="bookmark-name" class="settings-input" placeholder="Bookmark name">
-                    <input id="bookmark-url" class="settings-input" placeholder="https://example.com">
-                </div>
-            </div>
-
-            <div class="setting-group">
-                <button id="add-bookmark-btn" class="modal-btn">Save Bookmark</button>
+                <label>Saved Bookmarks</label>
+                <div class="small-muted">Use the star button in the browser to save the current page.</div>
             </div>
 
             <div class="setting-group">
@@ -725,22 +792,37 @@
         </div>
     </div>
 
-    <!-- Browser -->
+    <div id="info-modal">
+        <div class="modal-panel">
+            <div class="modal-header">
+                <div class="modal-title">Information</div>
+                <button class="close-modal" id="close-info-modal">×</button>
+            </div>
+
+            <div class="small-muted">
+                <p style="margin-top:0;">This homepage combines games, proxies, live chat, browser tabs, bookmarks, search, and sports news in one website layout.</p>
+                <p>The browser includes tabs, saved bookmarks, quick links, new tab shortcuts, saved tab restore, theme support, and configurable search engine behavior.</p>
+                <p style="margin-bottom:0;">Sports news refreshes automatically and you can switch between MLB, NFL, NBA, NHL, and FC feeds.</p>
+            </div>
+        </div>
+    </div>
+
     <div id="proxy-overlay">
         <div class="proxy-top">
+            <div id="tab-bar"></div>
+
             <div class="proxy-toolbar">
                 <button class="control-btn exit-btn" id="exit-proxy-btn">Exit</button>
+                <button class="new-tab-btn" id="new-tab-btn">+ New Tab</button>
                 <button class="control-btn" id="back-btn">←</button>
                 <button class="control-btn" id="forward-btn">→</button>
                 <button class="control-btn" id="refresh-btn">⟳</button>
                 <input id="proxy-nav-input" type="text" placeholder="Enter URL or search...">
                 <button class="bookmark-btn" id="save-current-bookmark">★</button>
                 <button class="control-btn" id="browser-settings-btn">⚙</button>
-                <button class="new-tab-btn" id="new-tab-btn">+ New Tab</button>
             </div>
 
             <div class="bookmark-bar" id="bookmark-bar"></div>
-            <div id="tab-bar"></div>
         </div>
 
         <div class="frame-container" id="frame-host"></div>
@@ -762,6 +844,7 @@
         let tabs = [];
         let activeTabId = null;
         let bookmarks = [];
+        let shortcuts = [];
         let searchEngine = "google";
         let proxyReady = false;
         let bareConnection = null;
@@ -769,7 +852,7 @@
         const quickLinks = [
             { name: "buffstreams", url: "https://buffstreams.app/" },
             { name: "mlbwebcast", url: "https://mlbwebcast.com/" },
-            { name: "streameast", url: "https://the.streameast.app/" },
+            { name: "streameast", url: "https://streameast.ga/" },
             { name: "sharkstreams", url: "https://sharkstreams.net/" },
             { name: "sportsurge", url: "https://sportsurge.net/" }
         ];
@@ -839,7 +922,7 @@
                     btn.classList.remove("pop");
                     void btn.offsetWidth;
                     btn.classList.add("pop");
-                    setTimeout(() => openInProxy(link.url), 120);
+                    setTimeout(() => openInProxy(link.url), 80);
                 };
                 container.appendChild(btn);
             });
@@ -873,12 +956,10 @@
         async function refreshNewsWithAnimation() {
             const container = document.getElementById("sports-news");
             container.classList.add("loading");
-            await new Promise(r => setTimeout(r, 160));
 
             try {
                 const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(sports[currentSport].rss)}`);
                 const data = await res.json();
-
                 container.innerHTML = "";
 
                 if (!data.items || !data.items.length) {
@@ -890,7 +971,7 @@
                 data.items.slice(0, 8).forEach((item, i) => {
                     const card = document.createElement("a");
                     card.className = "news-card";
-                    card.style.animationDelay = `${i * 45}ms`;
+                    card.style.animationDelay = `${i * 30}ms`;
                     card.href = item.link;
                     card.target = "_blank";
                     card.rel = "noopener noreferrer";
@@ -946,7 +1027,7 @@
                 overlay.style.display = "none";
                 document.getElementById("main-menu").style.display = "";
                 document.getElementById("news-section").style.display = "";
-            }, 220);
+            }, 160);
         }
 
         async function openInProxy(url) {
@@ -1010,7 +1091,6 @@
 
         function switchTab(id) {
             activeTabId = id;
-
             document.querySelectorAll("#frame-host iframe").forEach(f => f.classList.remove("active"));
             document.querySelectorAll(".new-tab-page").forEach(p => p.classList.remove("active"));
 
@@ -1048,6 +1128,31 @@
             });
         }
 
+        function renderShortcuts(container) {
+            const grid = container.querySelector(".shortcut-grid");
+            grid.innerHTML = "";
+
+            shortcuts.forEach((item, index) => {
+                const btn = document.createElement("button");
+                btn.className = "shortcut-btn";
+                btn.textContent = item.name;
+                btn.onclick = () => {
+                    const page = container.closest(".new-tab-page");
+                    const id = page.id;
+                    convertNewTabToPage(id, item.url);
+                };
+
+                btn.oncontextmenu = (e) => {
+                    e.preventDefault();
+                    shortcuts.splice(index, 1);
+                    safeJSONSet("watchbaseball_shortcuts", shortcuts);
+                    renderShortcuts(container);
+                };
+
+                grid.appendChild(btn);
+            });
+        }
+
         function createNewTabPage() {
             const id = "tab-" + Date.now();
             const page = document.createElement("div");
@@ -1061,19 +1166,39 @@
                         <input type="text" placeholder="Search or enter address" autocomplete="off">
                         <button class="primary-btn" type="submit">Go</button>
                     </form>
+
+                    <div class="shortcut-grid"></div>
+
+                    <div class="shortcut-add">
+                        <input type="text" class="shortcut-name" placeholder="Shortcut name">
+                        <input type="text" class="shortcut-url" placeholder="https://example.com">
+                        <button class="icon-btn add-shortcut-btn" type="button">+</button>
+                    </div>
                 </div>
             `;
 
             page.querySelector("form").addEventListener("submit", (e) => {
                 e.preventDefault();
-                const input = page.querySelector("input").value.trim();
+                const input = page.querySelector(".new-tab-search input").value.trim();
                 if (!input) return;
                 const url = search(input);
                 convertNewTabToPage(id, url);
             });
 
+            page.querySelector(".add-shortcut-btn").addEventListener("click", () => {
+                const name = page.querySelector(".shortcut-name").value.trim();
+                const urlInput = page.querySelector(".shortcut-url").value.trim();
+                if (!name || !urlInput) return;
+                shortcuts.push({ name, url: search(urlInput) });
+                safeJSONSet("watchbaseball_shortcuts", shortcuts);
+                page.querySelector(".shortcut-name").value = "";
+                page.querySelector(".shortcut-url").value = "";
+                renderShortcuts(page);
+            });
+
             document.getElementById("frame-host").appendChild(page);
             tabs.push({ id, url: "", isNewTab: true });
+            renderShortcuts(page);
             renderTabs();
             switchTab(id);
             saveTabsState();
@@ -1091,7 +1216,7 @@
         }
 
         function createTab(url, forcedId = null) {
-            const id = forcedId || ("tab-" + Date.now());
+            const id = forcedId || ("tab-" + Date.now() + "-" + Math.floor(Math.random() * 1000));
 
             const loaded = $scramjetLoadController?.();
             const ScramjetController = loaded?.ScramjetController;
@@ -1118,7 +1243,13 @@
             tabs.push(tab);
             renderTabs();
             switchTab(id);
-            frameObj.go(url);
+
+            try {
+                frameObj.go(url);
+            } catch {
+                console.warn("Navigation failed");
+            }
+
             saveTabsState();
         }
 
@@ -1132,9 +1263,10 @@
             }
 
             tab.url = url;
-            const frame = document.getElementById(tab.id);
-            if (frame && tab.frameObj) {
-                tab.frameObj.go(url);
+            if (tab.frameObj) {
+                try {
+                    tab.frameObj.go(url);
+                } catch {}
             }
             document.getElementById("proxy-nav-input").value = url;
             renderTabs();
@@ -1149,10 +1281,9 @@
 
             const el = document.getElementById(id);
             if (el) {
-                el.style.transition = "opacity .16s ease, transform .16s ease";
+                el.style.transition = "opacity .12s ease";
                 el.style.opacity = "0";
-                el.style.transform = "scale(.995)";
-                setTimeout(() => el.remove(), 160);
+                setTimeout(() => el.remove(), 120);
             }
 
             tabs.splice(idx, 1);
@@ -1177,12 +1308,30 @@
             navigateActiveTab(tab.url);
         }
 
+        function getActiveFrame() {
+            const tab = tabs.find(t => t.id === activeTabId);
+            if (!tab || tab.isNewTab) return null;
+            return document.getElementById(tab.id);
+        }
+
         function historyBack() {
-            alert("Back navigation may be limited depending on the page.");
+            const frame = getActiveFrame();
+            if (!frame) return;
+            try {
+                frame.contentWindow.history.back();
+            } catch {
+                alert("Back navigation isn't available for this tab.");
+            }
         }
 
         function historyForward() {
-            alert("Forward navigation may be limited depending on the page.");
+            const frame = getActiveFrame();
+            if (!frame) return;
+            try {
+                frame.contentWindow.history.forward();
+            } catch {
+                alert("Forward navigation isn't available for this tab.");
+            }
         }
 
         function openSettings() {
@@ -1201,6 +1350,14 @@
             document.getElementById("browser-settings-modal").style.display = "none";
         }
 
+        function openInfo() {
+            document.getElementById("info-modal").style.display = "flex";
+        }
+
+        function closeInfo() {
+            document.getElementById("info-modal").style.display = "none";
+        }
+
         function restoreSavedTabsPromptless() {
             const saved = loadTabsState();
             if (!saved.length) return;
@@ -1208,8 +1365,11 @@
             showProxy();
 
             saved.forEach((t) => {
-                if (t.isNewTab) createNewTabPage();
-                else if (t.url) createTab(t.url);
+                if (t.isNewTab) {
+                    createNewTabPage();
+                } else if (t.url) {
+                    createTab(t.url);
+                }
             });
 
             const savedActive = safeGet("watchbaseball_active_tab", "");
@@ -1220,9 +1380,17 @@
             }
         }
 
-        window.addEventListener("load", () => {
+        async function maybeOpenInstantGoto() {
+            const enabled = safeGet("watchbaseball_instant_goto_enabled", "false") === "true";
+            const url = safeGet("watchbaseball_instant_goto_url", "").trim();
+            if (!enabled || !url) return;
+            await openInProxy(search(url));
+        }
+
+        window.addEventListener("load", async () => {
             currentSport = getPreferredSport();
             bookmarks = safeJSONGet("watchbaseball_bookmarks", []);
+            shortcuts = safeJSONGet("watchbaseball_shortcuts", []);
             searchEngine = safeGet("watchbaseball_search_engine", "google");
 
             loadTheme();
@@ -1233,6 +1401,11 @@
 
             const searchSelect = document.getElementById("search-engine-select");
             searchSelect.value = searchEngine;
+
+            document.getElementById("instant-goto-enabled").checked =
+                safeGet("watchbaseball_instant_goto_enabled", "false") === "true";
+            document.getElementById("instant-goto-url").value =
+                safeGet("watchbaseball_instant_goto_url", "");
 
             setInterval(updateTimer, 1000);
 
@@ -1248,8 +1421,14 @@
                 openSettings();
             });
 
+            document.getElementById("info-btn").addEventListener("click", (e) => {
+                e.preventDefault();
+                openInfo();
+            });
+
             document.getElementById("close-modal").addEventListener("click", closeSettings);
             document.getElementById("close-browser-modal").addEventListener("click", closeBrowserSettings);
+            document.getElementById("close-info-modal").addEventListener("click", closeInfo);
 
             document.querySelectorAll(".theme-btn").forEach(btn => {
                 btn.addEventListener("click", () => setTheme(btn.dataset.theme));
@@ -1258,6 +1437,14 @@
             searchSelect.addEventListener("change", () => {
                 searchEngine = searchSelect.value;
                 safeSet("watchbaseball_search_engine", searchEngine);
+            });
+
+            document.getElementById("save-instant-goto").addEventListener("click", () => {
+                const enabled = document.getElementById("instant-goto-enabled").checked;
+                const url = document.getElementById("instant-goto-url").value.trim();
+                safeSet("watchbaseball_instant_goto_enabled", String(enabled));
+                safeSet("watchbaseball_instant_goto_url", url);
+                alert("Instant Goto saved.");
             });
 
             document.getElementById("clear-saved-tabs").addEventListener("click", () => {
@@ -1289,16 +1476,6 @@
                 addBookmark(name, tab.url);
             });
 
-            document.getElementById("add-bookmark-btn").addEventListener("click", () => {
-                const name = document.getElementById("bookmark-name").value.trim();
-                const urlInput = document.getElementById("bookmark-url").value.trim();
-                if (!name || !urlInput) return;
-                addBookmark(name, search(urlInput));
-                document.getElementById("bookmark-name").value = "";
-                document.getElementById("bookmark-url").value = "";
-                closeBrowserSettings();
-            });
-
             document.getElementById("clear-bookmarks-btn").addEventListener("click", () => {
                 bookmarks = [];
                 safeJSONSet("watchbaseball_bookmarks", bookmarks);
@@ -1313,9 +1490,15 @@
                 if (e.target.id === "browser-settings-modal") closeBrowserSettings();
             });
 
+            document.getElementById("info-modal").addEventListener("click", (e) => {
+                if (e.target.id === "info-modal") closeInfo();
+            });
+
             const savedTabs = loadTabsState();
             if (savedTabs.length) {
                 restoreSavedTabsPromptless();
+            } else {
+                await maybeOpenInstantGoto();
             }
         });
     </script>
