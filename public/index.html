@@ -258,113 +258,159 @@
             margin-bottom: 8px;
         }
 
-        /* Settings Modal */
-        #settings-modal {
+        /* ==================== IMPROVED BROWSER ==================== */
+        #proxy-overlay {
             position: fixed;
-            top: 90px;
-            right: 30px;
-            width: 360px;
-            background: #111;
-            border: 1px solid #333;
-            border-radius: 20px;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.7);
-            padding: 24px;
-            z-index: 10000;
+            inset: 0;
+            background: #0a0a0a;
+            z-index: 9999;
             display: none;
             flex-direction: column;
-            gap: 20px;
-            animation: modalPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        @keyframes modalPop {
-            from { opacity: 0; transform: scale(0.92) translateY(-20px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 12px;
-            border-bottom: 1px solid #222;
-        }
-
-        .modal-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-        }
-
-        .close-modal {
-            background: none;
-            border: none;
-            color: #888;
-            font-size: 1.6rem;
-            cursor: pointer;
-            padding: 4px 10px;
-        }
-
-        .theme-options {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-        }
-
-        .theme-btn {
-            padding: 16px 10px;
-            border: 2px solid transparent;
-            border-radius: 14px;
-            background: #222;
-            color: white;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            text-align: center;
-        }
-        .theme-btn.active {
-            border-color: var(--accent);
-            background: #333;
-            box-shadow: 0 0 0 3px rgba(255,255,255,0.1);
-        }
-
-        /* Proxy Overlay */
-        #proxy-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; z-index: 9999; display: none; flex-direction: column;
-        }
+        /* Modern Browser Top Bar */
         .proxy-nav {
-            background: #111; padding: 12px 16px; display: flex; gap: 12px; align-items: center;
+            background: #111;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
             border-bottom: 1px solid #222;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
-        .exit-btn {
-            background: #ef4444; color: white; border: none; padding: 9px 18px;
-            border-radius: 10px; cursor: pointer; font-weight: 600;
-            transition: background 0.25s ease;
-        }
-        .exit-btn:hover { background: #dc2626; }
 
-        #proxy-nav-input {
-            flex: 1; background: #222; color: white; border: none;
-            padding: 10px 14px; border-radius: 10px;
-        }
-        #tab-bar {
-            display: none; background: #0f0f0f; padding: 8px 12px 0; gap: 6px;
-            overflow-x: auto; border-bottom: 1px solid #222;
-        }
-        .tab {
-            background: #1f1f1f; color: #ccc; padding: 10px 18px;
-            border-radius: 10px 10px 0 0; cursor: pointer;
-            display: inline-flex; align-items: center; gap: 10px;
-            font-size: 0.95rem; border: 1px solid #333; border-bottom: none;
+        .exit-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
             transition: all 0.2s ease;
         }
-        .tab.active { background: #2a2a2a; color: white; border-top: 3px solid white; }
-        .close-tab { color: #ff5f57; font-weight: bold; cursor: pointer; margin-left: auto; }
-        .new-tab-btn { background: #333; color: white; border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; transition: background 0.25s ease; }
+        .exit-btn:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+        }
+
+        .browser-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: 8px;
+        }
+
+        .nav-btn {
+            width: 32px;
+            height: 32px;
+            background: #222;
+            border: none;
+            color: #ccc;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .nav-btn:hover {
+            background: #333;
+            color: white;
+        }
+
+        #proxy-nav-input {
+            flex: 1;
+            background: #1f1f1f;
+            color: white;
+            border: 1px solid #444;
+            padding: 10px 16px;
+            border-radius: 9999px;
+            font-size: 1rem;
+            outline: none;
+            transition: border 0.2s ease;
+        }
+        #proxy-nav-input:focus {
+            border-color: var(--accent);
+        }
+
+        /* Tab Bar */
+        #tab-bar {
+            display: none;
+            background: #0f0f0f;
+            padding: 8px 12px 0;
+            gap: 6px;
+            overflow-x: auto;
+            border-bottom: 1px solid #222;
+            scrollbar-width: thin;
+        }
+
+        .tab {
+            background: #1a1a1a;
+            color: #ccc;
+            padding: 10px 20px;
+            border-radius: 12px 12px 0 0;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+            border: 1px solid #333;
+            border-bottom: none;
+            min-width: 140px;
+            max-width: 200px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            transition: all 0.2s ease;
+        }
+
+        .tab.active {
+            background: #2a2a2a;
+            color: white;
+            border-top: 3px solid var(--accent);
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.4);
+        }
+
+        .close-tab {
+            color: #ff5f57;
+            font-weight: bold;
+            margin-left: auto;
+            padding: 0 6px;
+            cursor: pointer;
+        }
+        .close-tab:hover { color: #ff0000; }
+
+        .new-tab-btn {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-left: 8px;
+            transition: background 0.2s ease;
+        }
         .new-tab-btn:hover { background: #444; }
 
-        .frame-container { flex: 1; position: relative; background: #000; }
-        iframe { width: 100%; height: 100%; border: none; display: none; }
-        iframe.active { display: block; }
+        /* Frame Area */
+        .frame-container {
+            flex: 1;
+            position: relative;
+            background: #000;
+            overflow: hidden;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: none;
+        }
+        iframe.active {
+            display: block;
+        }
 
         @media (max-width: 640px) {
             h1 { font-size: 2.6rem; }
@@ -432,15 +478,23 @@
         </div>
     </div>
 
-    <!-- Proxy Overlay -->
+    <!-- Improved Proxy Browser -->
     <div id="proxy-overlay">
-        <div id="tab-bar">
+        <div class="proxy-nav">
+            <button class="exit-btn" onclick="exitProxy()">Exit</button>
+            
+            <div class="browser-controls">
+                <button class="nav-btn" onclick="historyBack()">←</button>
+                <button class="nav-btn" onclick="historyForward()">→</button>
+            </div>
+
+            <input id="proxy-nav-input" type="text" readonly placeholder="Loading..." />
+
             <button class="new-tab-btn" onclick="openNewTabPrompt()">New Tab</button>
         </div>
-        <div class="proxy-nav">
-            <button class="exit-btn" onclick="exitProxy()">Exit Browser</button>
-            <input id="proxy-nav-input" type="text" readonly />
-        </div>
+
+        <div id="tab-bar"></div>
+
         <div class="frame-container" id="frame-host"></div>
     </div>
 
@@ -452,6 +506,8 @@
         let refreshSecs = 60;
         let currentTheme = "dark";
 
+        // ... (keep all previous sports, safeGet, safeSet, renderSportButtons, refreshNewsWithAnimation, etc. the same as last version)
+
         const sports = {
             MLB: { label: "MLB",  rss: "https://www.mlb.com/feeds/news/rss.xml" },
             NFL: { label: "NFL",  rss: "https://www.cbssports.com/rss/headlines/nfl" },
@@ -462,36 +518,24 @@
 
         let currentSport = "MLB";
 
-        // Safe storage helper - prevents SecurityError in sandboxed environments
         function safeGet(key, defaultValue) {
             try {
                 const value = localStorage.getItem(key) || sessionStorage.getItem(key);
                 return value !== null ? value : defaultValue;
             } catch (e) {
-                try {
-                    return sessionStorage.getItem(key) || defaultValue;
-                } catch (e2) {
-                    return defaultValue;
-                }
+                try { return sessionStorage.getItem(key) || defaultValue; } catch {}
+                return defaultValue;
             }
         }
 
         function safeSet(key, value) {
-            try {
-                localStorage.setItem(key, value);
-            } catch (e) {
-                try {
-                    sessionStorage.setItem(key, value);
-                } catch (e2) {
-                    console.warn("Storage unavailable - preference will not persist");
-                }
-            }
+            try { localStorage.setItem(key, value); } catch {}
+            try { sessionStorage.setItem(key, value); } catch {}
         }
 
         function getPreferredSport() {
             const saved = safeGet("preferredSport", null);
-            if (saved && sports[saved]) return saved;
-            return "MLB";
+            return (saved && sports[saved]) ? saved : "MLB";
         }
 
         function savePreferredSport(sportKey) {
@@ -614,12 +658,16 @@
         function renderTabs() {
             const tabBar = document.getElementById('tab-bar');
             tabBar.style.display = 'flex';
+
             tabBar.querySelectorAll('.tab').forEach(t => t.remove());
 
             tabs.forEach(tab => {
                 const el = document.createElement('div');
                 el.className = `tab ${tab.id === activeTabId ? 'active' : ''}`;
-                el.innerHTML = `<span onclick="switchTab('${tab.id}')">Tab</span><span class="close-tab" onclick="closeTab('${tab.id}', event)">×</span>`;
+                el.innerHTML = `
+                    <span onclick="switchTab('${tab.id}')" style="overflow:hidden; text-overflow:ellipsis; flex:1;">${tab.url ? new URL(tab.url).hostname : 'New Tab'}</span>
+                    <span class="close-tab" onclick="closeTab('${tab.id}', event)">×</span>
+                `;
                 tabBar.insertBefore(el, tabBar.lastElementChild);
             });
         }
@@ -629,8 +677,9 @@
             document.querySelectorAll('iframe').forEach(f => f.classList.remove('active'));
             const frame = document.getElementById(id);
             if (frame) frame.classList.add('active');
+
             const tabData = tabs.find(t => t.id === id);
-            if (tabData) document.getElementById('proxy-nav-input').value = tabData.url;
+            if (tabData) document.getElementById('proxy-nav-input').value = tabData.url || '';
             renderTabs();
         }
 
@@ -659,9 +708,18 @@
             return template.replace("%s", encodeURIComponent(input));
         }
 
+        // Simple history simulation
+        function historyBack() {
+            // This is limited in proxy context, but we can try
+            alert("Back navigation is limited in proxy mode.");
+        }
+        function historyForward() {
+            alert("Forward navigation is limited in proxy mode.");
+        }
+
         window.exitProxy = () => location.reload();
 
-        // Settings
+        // Settings (same as before)
         function openSettings() {
             document.getElementById('settings-modal').style.display = 'flex';
         }
@@ -671,10 +729,8 @@
         }
 
         function setTheme(theme) {
-            currentTheme = theme;
             document.documentElement.setAttribute('data-theme', theme);
             safeSet("watchbaseball_theme", theme);
-            
             document.querySelectorAll('.theme-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.getAttribute('data-theme') === theme);
             });
@@ -683,7 +739,6 @@
         function loadSavedTheme() {
             const savedTheme = safeGet("watchbaseball_theme", "dark");
             if (savedTheme) {
-                currentTheme = savedTheme;
                 document.documentElement.setAttribute('data-theme', savedTheme);
                 document.querySelectorAll('.theme-btn').forEach(btn => {
                     btn.classList.toggle('active', btn.getAttribute('data-theme') === savedTheme);
@@ -694,10 +749,7 @@
         function openCloak() {
             const win = window.open('about:blank', '_blank');
             if (win) {
-                win.document.write(`
-                    <style>body{margin:0;height:100vh;overflow:hidden;background:#000}</style>
-                    <iframe src="${window.location.origin}" style="width:100%;height:100%;border:none"></iframe>
-                `);
+                win.document.write(`<style>body{margin:0;height:100vh;overflow:hidden;background:#000}</style><iframe src="${window.location.origin}" style="width:100%;height:100%;border:none"></iframe>`);
                 closeSettings();
             }
         }
@@ -712,7 +764,6 @@
 
             setInterval(updateTimer, 1000);
 
-            // Form submit
             document.getElementById("sj-form").addEventListener("submit", (e) => {
                 e.preventDefault();
                 const input = document.getElementById("sj-address").value.trim();
@@ -721,7 +772,6 @@
                 openInProxy(url);
             });
 
-            // Settings listeners
             document.getElementById("settings-btn").addEventListener("click", (e) => {
                 e.preventDefault();
                 openSettings();
@@ -734,7 +784,6 @@
 
             document.getElementById("cloak-btn").addEventListener("click", openCloak);
 
-            // Close modal when clicking outside
             document.getElementById('settings-modal').addEventListener('click', (e) => {
                 if (e.target.id === 'settings-modal') closeSettings();
             });
