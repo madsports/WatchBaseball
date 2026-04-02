@@ -83,10 +83,7 @@
         }
 
         * { box-sizing: border-box; }
-
-        html, body {
-            height: 100%;
-        }
+        html, body { height: 100%; }
 
         body {
             margin: 0;
@@ -147,14 +144,21 @@
             margin-bottom: 20px;
         }
 
-        .nav-links a {
+        .nav-links a,
+        .nav-links button {
             color: var(--muted);
             text-decoration: none;
             font-weight: 600;
             transition: color .18s ease, transform .18s ease;
+            background: transparent;
+            border: none;
+            font: inherit;
+            cursor: pointer;
+            padding: 0;
         }
 
-        .nav-links a:hover {
+        .nav-links a:hover,
+        .nav-links button:hover {
             color: var(--accent);
             transform: translateY(-1px);
         }
@@ -211,7 +215,8 @@
 
         .quick-links-grid,
         .sport-tabs,
-        .shortcut-grid {
+        .shortcut-grid,
+        .embed-grid {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
@@ -221,7 +226,8 @@
         .quick-btn,
         .sport-btn,
         .bookmark-chip,
-        .shortcut-btn {
+        .shortcut-btn,
+        .embed-chip {
             background: var(--panel-2);
             color: var(--accent);
             border: 1px solid var(--border);
@@ -233,14 +239,13 @@
         .quick-btn:hover,
         .sport-btn:hover,
         .bookmark-chip:hover,
-        .shortcut-btn:hover {
+        .shortcut-btn:hover,
+        .embed-chip:hover {
             transform: translateY(-1px);
             background: rgba(255,255,255,.16);
         }
 
-        .quick-btn.pop {
-            animation: quickPop .2s ease;
-        }
+        .quick-btn.pop { animation: quickPop .2s ease; }
 
         @keyframes quickPop {
             0% { transform: scale(1); }
@@ -271,6 +276,15 @@
             padding: 6px 12px;
             border-radius: 999px;
             font-size: .86rem;
+        }
+
+        .warning-note {
+            color: #ff8d8d;
+            font-size: .82rem;
+            font-weight: 700;
+            margin-top: 10px;
+            margin-bottom: 16px;
+            letter-spacing: .2px;
         }
 
         .news-grid {
@@ -312,7 +326,9 @@
 
         #settings-modal,
         #browser-settings-modal,
-        #info-modal {
+        #info-modal,
+        #games-modal,
+        #proxies-modal {
             position: fixed;
             inset: 0;
             background: rgba(0,0,0,.45);
@@ -332,6 +348,12 @@
             box-shadow: var(--shadow);
             padding: 20px;
             animation: modalIn .18s ease;
+            max-height: 90vh;
+            overflow: auto;
+        }
+
+        .wide-modal {
+            max-width: 900px;
         }
 
         @keyframes modalIn {
@@ -396,9 +418,7 @@
             font-weight: 700;
         }
 
-        .modal-btn {
-            width: 100%;
-        }
+        .modal-btn { width: 100%; }
 
         .row {
             display: flex;
@@ -417,6 +437,43 @@
             line-height: 1.55;
         }
 
+        .important-box {
+            background: rgba(239,68,68,.12);
+            border: 1px solid rgba(239,68,68,.45);
+            color: #ffd0d0;
+            border-radius: 16px;
+            padding: 14px 16px;
+            margin-bottom: 16px;
+            text-align: left;
+        }
+
+        .important-box strong {
+            color: #ff5f5f;
+            display: inline-block;
+            margin-bottom: 6px;
+        }
+
+        .embed-area {
+            width: 100%;
+            min-height: 420px;
+            border-radius: 18px;
+            border: 1px solid var(--border);
+            background: var(--panel-2);
+            display: grid;
+            place-items: center;
+            color: var(--muted);
+            margin-top: 16px;
+            overflow: hidden;
+        }
+
+        .embed-area iframe {
+            width: 100%;
+            height: 420px;
+            border: none;
+            display: block;
+            opacity: 1;
+        }
+
         #proxy-overlay {
             position: fixed;
             inset: 0;
@@ -433,9 +490,7 @@
             opacity: 1;
         }
 
-        #proxy-overlay.closing {
-            opacity: 0;
-        }
+        #proxy-overlay.closing { opacity: 0; }
 
         .proxy-top {
             background: linear-gradient(to bottom, #121212, #0d0d0d);
@@ -505,9 +560,7 @@
             gap: 8px;
         }
 
-        .proxy-toolbar {
-            min-height: 48px;
-        }
+        .proxy-toolbar { min-height: 48px; }
 
         .control-btn,
         .new-tab-btn,
@@ -535,9 +588,7 @@
             border: 1px solid #5a2323;
         }
 
-        .exit-btn:hover {
-            background: #3a1717;
-        }
+        .exit-btn:hover { background: #3a1717; }
 
         #proxy-nav-input {
             flex: 1;
@@ -601,9 +652,7 @@
             padding: 30px;
         }
 
-        .new-tab-page.active {
-            display: grid;
-        }
+        .new-tab-page.active { display: grid; }
 
         .new-tab-inner {
             width: 100%;
@@ -642,9 +691,7 @@
             font-size: 1rem;
         }
 
-        .shortcut-grid {
-            margin-top: 12px;
-        }
+        .shortcut-grid { margin-top: 12px; }
 
         .shortcut-add {
             margin-top: 16px;
@@ -679,6 +726,12 @@
             height: 18px;
         }
 
+        .keybind-display {
+            margin-top: 8px;
+            color: var(--muted);
+            font-size: .85rem;
+        }
+
         @media (max-width: 700px) {
             h1 { font-size: 2.35rem; }
             .main-ui-container { padding: 26px 18px; margin: 20px 12px; }
@@ -691,9 +744,8 @@
 <body>
     <div class="main-ui-container" id="main-menu">
         <div class="nav-links">
-            <a href="/games.html">Games</a>
-            <a href="/proxies.html">Proxies</a>
-            <a href="/chat.html">Live Chat</a>
+            <button id="games-btn">Games</button>
+            <button id="proxies-btn">Proxies</button>
             <a href="#" id="settings-btn">Settings</a>
             <a href="#" id="info-btn">Information</a>
         </div>
@@ -718,6 +770,7 @@
             <div class="timer-pill">Next refresh: <span id="refresh-timer">60</span>s</div>
         </div>
         <div class="sport-tabs" id="sport-tabs"></div>
+        <div class="warning-note">READ INFORMATION BEFORE WATCHING BASEBALL</div>
         <div id="sports-news" class="news-grid">
             <p style="grid-column:1/-1; color:var(--muted);">Loading news...</p>
         </div>
@@ -752,6 +805,41 @@
             </div>
 
             <div class="setting-group">
+                <label>Tab Cloak</label>
+                <select id="tab-cloak-select">
+                    <option value="none">None</option>
+                    <option value="google">Google</option>
+                    <option value="googledrive">Google Drive</option>
+                    <option value="googleclassroom">Google Classroom</option>
+                    <option value="powerschool">Powerschool</option>
+                    <option value="clever">Clever</option>
+                    <option value="canvas">Canvas</option>
+                    <option value="amplify">Amplify</option>
+                    <option value="iready">I-ready</option>
+                </select>
+            </div>
+
+            <div class="setting-group">
+                <label>Ad Blocker</label>
+                <div class="toggle-row">
+                    <span>Enable built-in ad blocker mode</span>
+                    <input type="checkbox" id="adblock-enabled">
+                </div>
+                <div class="keybind-display">Note: this is a UI setting placeholder unless your proxy backend supports blocking.</div>
+            </div>
+
+            <div class="setting-group">
+                <label>Panic Key Redirect URL</label>
+                <input id="panic-url" class="settings-input" placeholder="https://www.google.com" style="width:100%;">
+            </div>
+
+            <div class="setting-group">
+                <label>Panic Keybind</label>
+                <input id="panic-keybind" class="settings-input" placeholder="e.g. \\ or Escape" style="width:100%;">
+                <div class="keybind-display">Pressing this key will instantly redirect this page.</div>
+            </div>
+
+            <div class="setting-group">
                 <label>Instant Goto</label>
                 <div class="toggle-row">
                     <span>Automatically reopen a saved page on launch</span>
@@ -765,7 +853,7 @@
             </div>
 
             <div class="setting-group">
-                <button id="save-instant-goto" class="modal-btn">Save Instant Goto</button>
+                <button id="save-main-settings" class="modal-btn">Save Settings</button>
             </div>
 
             <div class="setting-group">
@@ -787,6 +875,43 @@
             </div>
 
             <div class="setting-group">
+                <label>Tab Cloak</label>
+                <select id="browser-tab-cloak-select">
+                    <option value="none">None</option>
+                    <option value="google">Google</option>
+                    <option value="googledrive">Google Drive</option>
+                    <option value="googleclassroom">Google Classroom</option>
+                    <option value="powerschool">Powerschool</option>
+                    <option value="clever">Clever</option>
+                    <option value="canvas">Canvas</option>
+                    <option value="amplify">Amplify</option>
+                    <option value="iready">I-ready</option>
+                </select>
+            </div>
+
+            <div class="setting-group">
+                <label>Ad Blocker</label>
+                <div class="toggle-row">
+                    <span>Enable built-in ad blocker mode</span>
+                    <input type="checkbox" id="browser-adblock-enabled">
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <label>Panic Key Redirect URL</label>
+                <input id="browser-panic-url" class="settings-input" placeholder="https://www.google.com" style="width:100%;">
+            </div>
+
+            <div class="setting-group">
+                <label>Panic Keybind</label>
+                <input id="browser-panic-keybind" class="settings-input" placeholder="e.g. \\ or Escape" style="width:100%;">
+            </div>
+
+            <div class="setting-group">
+                <button id="save-browser-settings-btn" class="modal-btn">Save Browser Settings</button>
+            </div>
+
+            <div class="setting-group">
                 <button id="clear-bookmarks-btn" class="modal-btn">Clear All Bookmarks</button>
             </div>
         </div>
@@ -799,10 +924,67 @@
                 <button class="close-modal" id="close-info-modal">×</button>
             </div>
 
+            <div class="important-box">
+                <strong>IMPORTANT</strong>
+                <div>
+                    Before opening any baseball stream, be aware that some links may show popups, ads, or misleading pages. If that happens, close those tabs or ads and keep clicking play until the stream loads. Some sources may show multiple ads before working, while others may only show one. Different sites may also offer different stream sources, so if one link does not work well, try another source or game link.
+                </div>
+            </div>
+
             <div class="small-muted">
-                <p style="margin-top:0;">This homepage combines games, proxies, live chat, browser tabs, bookmarks, search, and sports news in one website layout.</p>
-                <p>The browser includes tabs, saved bookmarks, quick links, new tab shortcuts, saved tab restore, theme support, and configurable search engine behavior.</p>
+                <p style="margin-top:0;">This homepage combines games, proxies, browser tabs, bookmarks, search, and sports news in one website layout.</p>
+                <p>The browser includes tabs, saved bookmarks, quick links, new tab shortcuts, saved tab restore, theme support, tab cloaking, panic key support, and configurable search engine behavior.</p>
                 <p style="margin-bottom:0;">Sports news refreshes automatically and you can switch between MLB, NFL, NBA, NHL, and FC feeds.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="games-modal">
+        <div class="modal-panel wide-modal">
+            <div class="modal-header">
+                <div class="modal-title">Games</div>
+                <button class="close-modal" id="close-games-modal">×</button>
+            </div>
+
+            <div class="small-muted" style="text-align:left; margin-bottom:14px;">
+                Add your game iframe embeds here later. For now, this section stays on the same site and is ready for embeds.
+            </div>
+
+            <div class="embed-grid" id="games-embed-buttons">
+                <button class="embed-chip" data-embed-target="games" data-name="Game Embed 1">Game Embed 1</button>
+                <button class="embed-chip" data-embed-target="games" data-name="Game Embed 2">Game Embed 2</button>
+                <button class="embed-chip" data-embed-target="games" data-name="Game Embed 3">Game Embed 3</button>
+            </div>
+
+            <div class="embed-area" id="games-embed-area">
+                <div>Game embed area — replace with your iframe later.</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="proxies-modal">
+        <div class="modal-panel wide-modal">
+            <div class="modal-header">
+                <div class="modal-title">Proxies</div>
+                <button class="close-modal" id="close-proxies-modal">×</button>
+            </div>
+
+            <div class="small-muted" style="text-align:left; margin-bottom:14px;">
+                Add your proxy iframe embeds here later, or use the built-in browser launcher below.
+            </div>
+
+            <div class="embed-grid" id="proxies-embed-buttons">
+                <button class="embed-chip" data-embed-target="proxies" data-name="Proxy Embed 1">Proxy Embed 1</button>
+                <button class="embed-chip" data-embed-target="proxies" data-name="Proxy Embed 2">Proxy Embed 2</button>
+                <button class="embed-chip" data-embed-target="proxies" data-name="Proxy Embed 3">Proxy Embed 3</button>
+            </div>
+
+            <div class="embed-area" id="proxies-embed-area">
+                <div>Proxy embed area — replace with your iframe later.</div>
+            </div>
+
+            <div class="setting-group" style="margin-top:16px;">
+                <button id="launch-built-in-browser" class="modal-btn">Open Built-In Proxy Browser</button>
             </div>
         </div>
     </div>
@@ -837,6 +1019,18 @@
             NBA: { label: "NBA", rss: "https://www.cbssports.com/rss/headlines/nba" },
             NHL: { label: "NHL", rss: "https://www.cbssports.com/rss/headlines/nhl" },
             FC:  { label: "FC",  rss: "https://www.cbssports.com/rss/headlines/soccer" }
+        };
+
+        const tabCloaks = {
+            none: { title: "WatchBaseball", icon: "https://pngimg.com/d/baseball_PNG19004.png" },
+            google: { title: "Google", icon: "https://www.google.com/favicon.ico" },
+            googledrive: { title: "My Drive - Google Drive", icon: "https://ssl.gstatic.com/images/branding/product/2x/drive_2020q4_32dp.png" },
+            googleclassroom: { title: "Classes", icon: "https://ssl.gstatic.com/classroom/favicon.png" },
+            powerschool: { title: "PowerSchool", icon: "https://www.powerschool.com/favicon.ico" },
+            clever: { title: "Clever | Portal", icon: "https://assets.clever.com/resource-icons/home/favicon.ico" },
+            canvas: { title: "Dashboard", icon: "https://du11hjcvx0uqb.cloudfront.net/dist/images/favicon-e10d657a73.ico" },
+            amplify: { title: "Amplify", icon: "https://readauth.amplify.com/favicon.ico" },
+            iready: { title: "i-Ready", icon: "https://login.i-ready.com/favicon.ico" }
         };
 
         let currentSport = "MLB";
@@ -911,6 +1105,26 @@
             setTheme(theme);
         }
 
+        function applyTabCloak(cloakKey) {
+            const cloak = tabCloaks[cloakKey] || tabCloaks.none;
+            document.title = cloak.title;
+
+            let icon = document.querySelector('link[rel="icon"]');
+            if (!icon) {
+                icon = document.createElement("link");
+                icon.rel = "icon";
+                document.head.appendChild(icon);
+            }
+            icon.href = cloak.icon;
+
+            safeSet("watchbaseball_tab_cloak", cloakKey);
+        }
+
+        function loadTabCloak() {
+            const cloak = safeGet("watchbaseball_tab_cloak", "none");
+            applyTabCloak(cloak);
+        }
+
         function renderQuickLinks() {
             const container = document.getElementById("quick-links-grid");
             container.innerHTML = "";
@@ -968,7 +1182,7 @@
                     return;
                 }
 
-                data.items.slice(0, 8).forEach((item, i) => {
+                data.items.slice(0, 9).forEach((item, i) => {
                     const card = document.createElement("a");
                     card.className = "news-card";
                     card.style.animationDelay = `${i * 30}ms`;
@@ -1038,7 +1252,7 @@
             if (!tabs.length) {
                 createTab(url);
             } else {
-                navigateActiveTab(url);
+                navigateActiveTab(url, true);
             }
         }
 
@@ -1052,7 +1266,9 @@
             const simpleTabs = tabs.map(t => ({
                 id: t.id,
                 url: t.url || "",
-                isNewTab: !!t.isNewTab
+                isNewTab: !!t.isNewTab,
+                historyStack: t.historyStack || [],
+                historyIndex: typeof t.historyIndex === "number" ? t.historyIndex : -1
             }));
             safeJSONSet("watchbaseball_saved_tabs", simpleTabs);
             safeSet("watchbaseball_active_tab", activeTabId || "");
@@ -1153,8 +1369,8 @@
             });
         }
 
-        function createNewTabPage() {
-            const id = "tab-" + Date.now();
+        function createNewTabPage(forcedId = null) {
+            const id = forcedId || ("tab-" + Date.now());
             const page = document.createElement("div");
             page.className = "new-tab-page";
             page.id = id;
@@ -1197,7 +1413,7 @@
             });
 
             document.getElementById("frame-host").appendChild(page);
-            tabs.push({ id, url: "", isNewTab: true });
+            tabs.push({ id, url: "", isNewTab: true, historyStack: [], historyIndex: -1 });
             renderShortcuts(page);
             renderTabs();
             switchTab(id);
@@ -1215,7 +1431,7 @@
             createTab(url, id);
         }
 
-        function createTab(url, forcedId = null) {
+        function createTab(url, forcedId = null, restoredState = null) {
             const id = forcedId || ("tab-" + Date.now() + "-" + Math.floor(Math.random() * 1000));
 
             const loaded = $scramjetLoadController?.();
@@ -1239,7 +1455,17 @@
 
             document.getElementById("frame-host").appendChild(frame);
 
-            const tab = { id, url, frameObj, isNewTab: false };
+            const tab = {
+                id,
+                url,
+                frameObj,
+                isNewTab: false,
+                historyStack: restoredState?.historyStack?.length ? restoredState.historyStack : [url],
+                historyIndex: typeof restoredState?.historyIndex === "number"
+                    ? restoredState.historyIndex
+                    : 0
+            };
+
             tabs.push(tab);
             renderTabs();
             switchTab(id);
@@ -1253,7 +1479,7 @@
             saveTabsState();
         }
 
-        function navigateActiveTab(url) {
+        function navigateActiveTab(url, pushHistory = true) {
             const tab = tabs.find(t => t.id === activeTabId);
             if (!tab) return createTab(url);
 
@@ -1263,11 +1489,21 @@
             }
 
             tab.url = url;
+
+            if (pushHistory) {
+                if (!Array.isArray(tab.historyStack)) tab.historyStack = [];
+                if (typeof tab.historyIndex !== "number") tab.historyIndex = -1;
+                tab.historyStack = tab.historyStack.slice(0, tab.historyIndex + 1);
+                tab.historyStack.push(url);
+                tab.historyIndex = tab.historyStack.length - 1;
+            }
+
             if (tab.frameObj) {
                 try {
                     tab.frameObj.go(url);
                 } catch {}
             }
+
             document.getElementById("proxy-nav-input").value = url;
             renderTabs();
             saveTabsState();
@@ -1305,33 +1541,53 @@
         function refreshActiveTab() {
             const tab = tabs.find(t => t.id === activeTabId);
             if (!tab || tab.isNewTab || !tab.url) return;
-            navigateActiveTab(tab.url);
-        }
-
-        function getActiveFrame() {
-            const tab = tabs.find(t => t.id === activeTabId);
-            if (!tab || tab.isNewTab) return null;
-            return document.getElementById(tab.id);
+            if (tab.frameObj) {
+                try {
+                    tab.frameObj.go(tab.url);
+                } catch {}
+            }
         }
 
         function historyBack() {
-            const frame = getActiveFrame();
-            if (!frame) return;
-            try {
-                frame.contentWindow.history.back();
-            } catch {
-                alert("Back navigation isn't available for this tab.");
+            const tab = tabs.find(t => t.id === activeTabId);
+            if (!tab || tab.isNewTab) return;
+
+            if (!Array.isArray(tab.historyStack) || typeof tab.historyIndex !== "number") return;
+            if (tab.historyIndex <= 0) return;
+
+            tab.historyIndex--;
+            tab.url = tab.historyStack[tab.historyIndex];
+
+            if (tab.frameObj) {
+                try {
+                    tab.frameObj.go(tab.url);
+                } catch {}
             }
+
+            document.getElementById("proxy-nav-input").value = tab.url;
+            renderTabs();
+            saveTabsState();
         }
 
         function historyForward() {
-            const frame = getActiveFrame();
-            if (!frame) return;
-            try {
-                frame.contentWindow.history.forward();
-            } catch {
-                alert("Forward navigation isn't available for this tab.");
+            const tab = tabs.find(t => t.id === activeTabId);
+            if (!tab || tab.isNewTab) return;
+
+            if (!Array.isArray(tab.historyStack) || typeof tab.historyIndex !== "number") return;
+            if (tab.historyIndex >= tab.historyStack.length - 1) return;
+
+            tab.historyIndex++;
+            tab.url = tab.historyStack[tab.historyIndex];
+
+            if (tab.frameObj) {
+                try {
+                    tab.frameObj.go(tab.url);
+                } catch {}
             }
+
+            document.getElementById("proxy-nav-input").value = tab.url;
+            renderTabs();
+            saveTabsState();
         }
 
         function openSettings() {
@@ -1358,6 +1614,27 @@
             document.getElementById("info-modal").style.display = "none";
         }
 
+        function openGames() {
+            document.getElementById("games-modal").style.display = "flex";
+        }
+
+        function closeGames() {
+            document.getElementById("games-modal").style.display = "none";
+        }
+
+        function openProxies() {
+            document.getElementById("proxies-modal").style.display = "flex";
+        }
+
+        function closeProxies() {
+            document.getElementById("proxies-modal").style.display = "none";
+        }
+
+        function setEmbedPlaceholder(type, name) {
+            const area = document.getElementById(`${type}-embed-area`);
+            area.innerHTML = `<div>${name} selected — replace this area with your iframe embed later.</div>`;
+        }
+
         function restoreSavedTabsPromptless() {
             const saved = loadTabsState();
             if (!saved.length) return;
@@ -1366,9 +1643,9 @@
 
             saved.forEach((t) => {
                 if (t.isNewTab) {
-                    createNewTabPage();
+                    createNewTabPage(t.id);
                 } else if (t.url) {
-                    createTab(t.url);
+                    createTab(t.url, t.id, t);
                 }
             });
 
@@ -1387,6 +1664,55 @@
             await openInProxy(search(url));
         }
 
+        function loadSettingsIntoUI() {
+            const cloak = safeGet("watchbaseball_tab_cloak", "none");
+            const adblock = safeGet("watchbaseball_adblock_enabled", "false") === "true";
+            const panicUrl = safeGet("watchbaseball_panic_url", "https://www.google.com");
+            const panicKey = safeGet("watchbaseball_panic_keybind", "\\");
+
+            document.getElementById("tab-cloak-select").value = cloak;
+            document.getElementById("browser-tab-cloak-select").value = cloak;
+
+            document.getElementById("adblock-enabled").checked = adblock;
+            document.getElementById("browser-adblock-enabled").checked = adblock;
+
+            document.getElementById("panic-url").value = panicUrl;
+            document.getElementById("browser-panic-url").value = panicUrl;
+
+            document.getElementById("panic-keybind").value = panicKey;
+            document.getElementById("browser-panic-keybind").value = panicKey;
+        }
+
+        function saveAllSettingsFromUI(source = "main") {
+            const cloak = document.getElementById(source === "main" ? "tab-cloak-select" : "browser-tab-cloak-select").value;
+            const adblock = document.getElementById(source === "main" ? "adblock-enabled" : "browser-adblock-enabled").checked;
+            const panicUrl = document.getElementById(source === "main" ? "panic-url" : "browser-panic-url").value.trim() || "https://www.google.com";
+            const panicKey = document.getElementById(source === "main" ? "panic-keybind" : "browser-panic-keybind").value.trim() || "\\";
+
+            safeSet("watchbaseball_tab_cloak", cloak);
+            safeSet("watchbaseball_adblock_enabled", String(adblock));
+            safeSet("watchbaseball_panic_url", panicUrl);
+            safeSet("watchbaseball_panic_keybind", panicKey);
+
+            applyTabCloak(cloak);
+            loadSettingsIntoUI();
+        }
+
+        function matchesPanicKey(event, configuredKey) {
+            if (!configuredKey) return false;
+            return event.key.toLowerCase() === configuredKey.toLowerCase();
+        }
+
+        function setupPanicKeyListener() {
+            document.addEventListener("keydown", (e) => {
+                const panicKey = safeGet("watchbaseball_panic_keybind", "\\");
+                const panicUrl = safeGet("watchbaseball_panic_url", "https://www.google.com");
+                if (matchesPanicKey(e, panicKey)) {
+                    window.location.href = panicUrl;
+                }
+            });
+        }
+
         window.addEventListener("load", async () => {
             currentSport = getPreferredSport();
             bookmarks = safeJSONGet("watchbaseball_bookmarks", []);
@@ -1394,10 +1720,13 @@
             searchEngine = safeGet("watchbaseball_search_engine", "google");
 
             loadTheme();
+            loadTabCloak();
             renderQuickLinks();
             renderSportButtons();
             refreshNewsWithAnimation();
             renderBookmarks();
+            loadSettingsIntoUI();
+            setupPanicKeyListener();
 
             const searchSelect = document.getElementById("search-engine-select");
             searchSelect.value = searchEngine;
@@ -1416,6 +1745,9 @@
                 openInProxy(search(input));
             });
 
+            document.getElementById("games-btn").addEventListener("click", openGames);
+            document.getElementById("proxies-btn").addEventListener("click", openProxies);
+
             document.getElementById("settings-btn").addEventListener("click", (e) => {
                 e.preventDefault();
                 openSettings();
@@ -1429,6 +1761,8 @@
             document.getElementById("close-modal").addEventListener("click", closeSettings);
             document.getElementById("close-browser-modal").addEventListener("click", closeBrowserSettings);
             document.getElementById("close-info-modal").addEventListener("click", closeInfo);
+            document.getElementById("close-games-modal").addEventListener("click", closeGames);
+            document.getElementById("close-proxies-modal").addEventListener("click", closeProxies);
 
             document.querySelectorAll(".theme-btn").forEach(btn => {
                 btn.addEventListener("click", () => setTheme(btn.dataset.theme));
@@ -1439,12 +1773,20 @@
                 safeSet("watchbaseball_search_engine", searchEngine);
             });
 
-            document.getElementById("save-instant-goto").addEventListener("click", () => {
+            document.getElementById("save-main-settings").addEventListener("click", () => {
                 const enabled = document.getElementById("instant-goto-enabled").checked;
                 const url = document.getElementById("instant-goto-url").value.trim();
+
                 safeSet("watchbaseball_instant_goto_enabled", String(enabled));
                 safeSet("watchbaseball_instant_goto_url", url);
-                alert("Instant Goto saved.");
+
+                saveAllSettingsFromUI("main");
+                alert("Settings saved.");
+            });
+
+            document.getElementById("save-browser-settings-btn").addEventListener("click", () => {
+                saveAllSettingsFromUI("browser");
+                alert("Browser settings saved.");
             });
 
             document.getElementById("clear-saved-tabs").addEventListener("click", () => {
@@ -1457,14 +1799,14 @@
             document.getElementById("back-btn").addEventListener("click", historyBack);
             document.getElementById("forward-btn").addEventListener("click", historyForward);
             document.getElementById("refresh-btn").addEventListener("click", refreshActiveTab);
-            document.getElementById("new-tab-btn").addEventListener("click", createNewTabPage);
+            document.getElementById("new-tab-btn").addEventListener("click", () => createNewTabPage());
             document.getElementById("browser-settings-btn").addEventListener("click", openBrowserSettings);
 
             document.getElementById("proxy-nav-input").addEventListener("keydown", (e) => {
                 if (e.key === "Enter") {
                     const val = e.target.value.trim();
                     if (!val) return;
-                    navigateActiveTab(search(val));
+                    navigateActiveTab(search(val), true);
                 }
             });
 
@@ -1482,16 +1824,26 @@
                 renderBookmarks();
             });
 
-            document.getElementById("settings-modal").addEventListener("click", (e) => {
-                if (e.target.id === "settings-modal") closeSettings();
+            document.getElementById("launch-built-in-browser").addEventListener("click", async () => {
+                closeProxies();
+                await openInProxy("https://www.google.com");
             });
 
-            document.getElementById("browser-settings-modal").addEventListener("click", (e) => {
-                if (e.target.id === "browser-settings-modal") closeBrowserSettings();
+            document.querySelectorAll("[data-embed-target]").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    setEmbedPlaceholder(btn.dataset.embedTarget, btn.dataset.name);
+                });
             });
 
-            document.getElementById("info-modal").addEventListener("click", (e) => {
-                if (e.target.id === "info-modal") closeInfo();
+            ["settings-modal", "browser-settings-modal", "info-modal", "games-modal", "proxies-modal"].forEach(id => {
+                document.getElementById(id).addEventListener("click", (e) => {
+                    if (e.target.id !== id) return;
+                    if (id === "settings-modal") closeSettings();
+                    if (id === "browser-settings-modal") closeBrowserSettings();
+                    if (id === "info-modal") closeInfo();
+                    if (id === "games-modal") closeGames();
+                    if (id === "proxies-modal") closeProxies();
+                });
             });
 
             const savedTabs = loadTabsState();
@@ -1503,4 +1855,3 @@
         });
     </script>
 </body>
-</html>
